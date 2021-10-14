@@ -67,7 +67,9 @@ module.exports.func = async function (interaction, bot) {
 
         await interaction.user.send({ embeds: [acceptEmbed], components: [acceptRow] });
         bot.users.cache.get(replaceMentEmbed.author.url.split('/').reverse()[0]).send({ embeds: [notifyEmbed] });
+    await client.end()
     } catch (error) {
+	await client.end();
         console.log(error);
         await interaction.reply({ content: 'Sorry, something when wrong. Try again in a few seconds', ephemeral: true });
     }

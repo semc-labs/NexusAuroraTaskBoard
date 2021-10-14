@@ -48,6 +48,10 @@ const subscription = supabase
 					.setCustomId('accept')
 					.setLabel('Accept')
 					.setStyle('PRIMARY'),
+				new MessageButton()
+                                        .setCustomId('delete')
+                                        .setLabel('Delete')
+                                        .setStyle('DANGER'),
 			);
 
 		const message = await channel.send({ embeds: [exampleEmbed], components: [row] });

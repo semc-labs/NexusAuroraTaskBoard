@@ -44,9 +44,10 @@ module.exports.func = async function (interaction, bot) {
         await interaction.followUp({ content: 'Task Completed! Please dm the author now' });
 
         console.log(interaction.message);
-
+	await client.end()
     } catch (error) {
         console.log(error);
+	await client.end();
         await interaction.reply({ content: 'Sorry, something when wrong. Try again in a few seconds', ephemeral: true });
     }
 };

@@ -37,7 +37,6 @@ async function getPoints(month) {
     
 
     return newEmbed;
-
 }
 module.exports = {
     data: new SlashCommandBuilder().setName('leaderboard').setDescription('Get points leaderboard')

@@ -33,9 +33,10 @@ module.exports.func = async function (interaction, bot) {
 
         bot.users.cache.get(interaction.message.components[0].components[2].url.split('/').reverse()[0]).send(interaction.user.username + " has accepted your completed task! Congratulations!");
         interaction.followUp("Task completed and finalized... adding points to users total");
-
+	await client.end()
     } catch (error) {
         console.log(error);
+	await client.end() 
         await interaction.followUp({ content: 'Sorry, something when wrong. Try again in a few seconds', ephemeral: true });
     }
 };
