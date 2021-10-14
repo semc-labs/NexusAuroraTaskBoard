@@ -23,7 +23,7 @@ module.exports.func = async function (interaction, bot) {
 
         client.query('DELETE FROM accepted_tasks WHERE title=$1 AND "skillsNeeded"=$2;', [interaction.message.embeds[0].fields[0].value, interaction.message.embeds[0].fields[1].value])
             .then(res => {
-                client.query('INSERT INTO points(id,discordname,points_this_month,points) VALUES($1,$2,0,0) ON CONFLICT DO NOTHING', [interaction.message.components[0].components[2].url.split('/').reverse()[0], bot.users.cache.get(interaction.message.components[0].components[2].url.split('/').reverse()[0]).username])
+                client.query('INSERT INTO points(id,discordname,points_this_month,points) VALUES($1,$2,1,1) ON CONFLICT DO NOTHING', [interaction.message.components[0].components[2].url.split('/').reverse()[0], bot.users.cache.get(interaction.message.components[0].components[2].url.split('/').reverse()[0]).username])
                     .then(res => {
                         client.query("UPDATE points SET points = points + 1, points_this_month = points_this_month + 1 WHERE id = $1;", [interaction.message.components[0].components[2].url.split('/').reverse()[0]])
                     })
