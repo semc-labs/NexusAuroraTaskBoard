@@ -19,8 +19,6 @@ module.exports.func = async function (interaction, bot) {
             )
             .setTimestamp()
 
-        await bot.users.cache.get("633434170596786186").createDM();
-
         const completeComponents = new MessageActionRow()
             .addComponents(
                 new MessageButton()
@@ -44,10 +42,8 @@ module.exports.func = async function (interaction, bot) {
         await interaction.followUp({ content: 'Task Completed! Please dm the author now' });
 
         console.log(interaction.message);
-	await client.end()
     } catch (error) {
         console.log(error);
-	await client.end();
         await interaction.reply({ content: 'Sorry, something when wrong. Try again in a few seconds', ephemeral: true });
     }
 };
