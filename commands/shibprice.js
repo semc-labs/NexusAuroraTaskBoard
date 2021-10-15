@@ -11,7 +11,7 @@ module.exports = {
         	const response = await fetch("https://www.coinbase.com/api/v2/assets/prices/d6031388-71ab-59c7-8a15-a56ec20d6080?base=USD");
 	        const json = await response.json();
 		console.log(json.data);
-		await interaction.reply("SHIB is currently at: **"+json.data.prices.latest+"** USD\n\nThat places NA's .4 billion SHIB at: **"+(formatNums(Number(json.data.prices.latest)*400000000)).toString()+"** USD");
+		await interaction.reply("SHIB is currently at: **"+json.data.prices.latest+"** USD\n\nThat places NA's .4 billion SHIB at: **"+(formatNums(Number(json.data.prices.latest)*Number(process.env.TOTAL_SHIB))).toString()+"** USD");
 	},
 };
 
