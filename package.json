@@ -18,6 +18,7 @@
     "discord.js": "^13.1.0",
     "express": "^4.17.1",
     "install": "^0.13.0",
+    "node-fetch": "2.x",
     "npm": "^8.0.0",
     "pg": "^8.7.1",
     "supabase": "^0.5.0"

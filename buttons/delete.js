@@ -22,7 +22,7 @@ module.exports.func = async function (interaction, bot) {
 		await interaction.message.delete()
 		await clientx.end()
 	}
-	await interaction.reply({ephemeral: true, content: "You can't do that!");
+	await interaction.reply({ephemeral: true, content: "You can't do that!"});
     } catch (error) {
 	console.log(error, "wtf hi");
         await interaction.reply({ content: 'Sorry, something when wrong. Try again in a few seconds', ephemeral: true });
