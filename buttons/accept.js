@@ -20,12 +20,13 @@ module.exports.func = async function (interaction, bot) {
         })
         client.connect()
 
-        client.query('INSERT into accepted_tasks(title, username, profilepic, description, deadline, "skillsNeeded", provider_id, "acceptedBy") VALUES($1,$2,$3,$4,$5,$6,$7,$8) RETURNING *;', [replaceMentEmbed.title, replaceMentEmbed.author.name, replaceMentEmbed.author.iconURL, replaceMentEmbed.description, replaceMentEmbed.fields[0].value.slice(3, -3), replaceMentEmbed.fields[1].value, replaceMentEmbed.author.url.split('/').reverse()[0], interaction.user.id])
-            .then(res => {
-                client.query('DELETE FROM tasks WHERE title=$1 AND username=$2;', [replaceMentEmbed.title, replaceMentEmbed.author.name]);
-            })
-            .catch(e => console.error(e.stack))
-
+	try {
+        	await client.query('INSERT into accepted_tasks(title, username, profilepic, description, deadline, "skillsNeeded", provider_id, "acceptedBy") VALUES($1,$2,$3,$4,$5,$6,$7,$8) RETURNING *;', [replaceMentEmbed.title, replaceMentEmbed.author.name, replaceMentEmbed.author.iconURL, replaceMentEmbed.description, replaceMentEmbed.fields[0].value.slice(3, -3), replaceMentEmbed.fields[1].value, replaceMentEmbed.author.url.split('/').reverse()[0], interaction.user.id])
+        	await client.query('DELETE FROM tasks WHERE title=$1 AND username=$2;', [replaceMentEmbed.title, replaceMentEmbed.author.name]);
+	} catch {
+		interaction.reply({ephemeral: true, content: "Something went wrong!"}); 
+		return false;
+	}
         let replacementRow = interaction.message.components[0];
         replaceMentEmbed.addField("Accepted By", interaction.user.username + "#" + interaction.user.discriminator)
 

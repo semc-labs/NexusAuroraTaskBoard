@@ -21,16 +21,16 @@ module.exports.func = async function (interaction, bot) {
 
         console.log
 
-        client.query('DELETE FROM accepted_tasks WHERE title=$1 AND "skillsNeeded"=$2;', [interaction.message.embeds[0].fields[0].value, interaction.message.embeds[0].fields[1].value])
-            .then(res => {
-                client.query('INSERT INTO points(id,discordname,points_this_month,points) VALUES($1,$2,1,1) ON CONFLICT DO NOTHING', [interaction.message.components[0].components[2].url.split('/').reverse()[0], bot.users.cache.get(interaction.message.components[0].components[2].url.split('/').reverse()[0]).username])
-                    .then(res => {
-                        client.query("UPDATE points SET points = points + 1, points_this_month = points_this_month + 1 WHERE id = $1;", [interaction.message.components[0].components[2].url.split('/').reverse()[0]])
-                    })
-                    .catch(e => console.error(e.stack))
-            })
-            .catch(e => console.error(e.stack))
-
+	console.log([interaction.message.embeds[0].fields[0].value, interaction.message.embeds[0].fields[1].value])
+	try {
+	// Query To Update Points
+        	await client.query('DELETE FROM accepted_tasks WHERE title=$1 AND "skillsNeeded"=$2;', [interaction.message.embeds[0].fields[0].value, interaction.message.embeds[0].fields[3].value])
+        	await client.query('INSERT INTO points(id,discordname,points_this_month,points) VALUES($1,$2,1,1) ON CONFLICT DO NOTHING', [interaction.message.components[0].components[2].url.split('/').reverse()[0], bot.users.cache.get(interaction.message.components[0].components[2].url.split('/').reverse()[0]).username])
+        	await client.query("UPDATE points SET points = points + 1, points_this_month = points_this_month + 1 WHERE id = $1;", [interaction.message.components[0].components[2].url.split('/').reverse()[0]])
+	} catch {
+		interaction.reply({ephemeral: true, content: "Something went wrong!"});
+		return false;
+	}
         bot.users.cache.get(interaction.message.components[0].components[2].url.split('/').reverse()[0]).send(interaction.user.username + " has accepted your completed task! Congratulations!");
         interaction.followUp("Task completed and finalized... adding points to users total");
 	await client.end()

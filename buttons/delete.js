@@ -13,11 +13,14 @@ module.exports.func = async function (interaction, bot) {
     })
         	await clientx.connect()
 		interaction.reply({ephemeral: true, content: "Task Deleted! ):"});
+		try {	
+		await clientx.query('DELETE FROM accepted_tasks WHERE title=$1 AND provider_id=$2;', [interaction.message.embeds[0].title, interaction.user.id])
 		
-		clientx.query('DELETE FROM accepted_tasks WHERE title=$1 AND provider_id=$2;', [interaction.message.embeds[0].title, interaction.user.id])
-                .catch(e => console.error(e.stack))
-
 		await clientx.query('DELETE FROM tasks WHERE title=$1 AND provider_id=$2 RETURNING *;', [interaction.message.embeds[0].title, interaction.user.id]);
+		} catch {
+			interaction.reply({ephemeral: true, content: "Something went wrong!"}); 
+			return false;
+		}
 		await interaction.message.thread.setArchived(true);
 		await interaction.message.delete()
 		await clientx.end()
