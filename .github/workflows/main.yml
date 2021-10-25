@@ -15,7 +15,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Push to dokku
+      - name: Push to VPS Droplet
         uses: dokku/github-action@master
         with:
           git_remote_url: 'ssh://dokku@206.189.184.20:22/nexus-task-bot'
