@@ -22,7 +22,7 @@ const rest = new REST({ version: '9' }).setToken(token);
 	try {
 		await rest.put(
 			Routes.applicationGuildCommands(clientId, guildId),
-			{ body: commands },
+			{ body: commands, defaultPermission: false },
 		);
 
 		console.log('Successfully registered application commands.');

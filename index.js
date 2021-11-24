@@ -19,6 +19,25 @@ client.commands = new Collection();
 
 var supabase = createClient('https://yrwzfuhdwmsygfksjrwi.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYzMjg3ODY2MiwiZXhwIjoxOTQ4NDU0NjYyfQ.dlRgknRLgXl57xNrgcKO1_DpXI3JD3w7fUVV0y-1sxw')
 
+const tweets = supabase
+        .from('tweets')
+        .on('INSERT', async function (payload) {
+		const embed = new MessageEmbed()
+			.setAuthor("Nexus Aurora One Time Tweet Portal")
+                        .setTitle("Do you like this tweet?")
+                        .setDescription(payload.new.body)
+                        .setTimestamp()
+		const row = new MessageActionRow()
+                        .addComponents(
+                        	new MessageButton()
+                                	.setCustomId('acceptTweet')
+                                        .setLabel('Accept')
+                                        .setStyle('PRIMARY'));
+
+		client.users.cache.get(process.env.TO_DM).send({ embeds: [embed], components: [row] })
+	})
+	.subscribe()
+
 const subscription = supabase
 	.from('tasks')
 	.on('INSERT', async function (payload) {
@@ -64,20 +83,9 @@ const subscription = supabase
 	.subscribe()
 
 // When the client is ready, run this code (only once)
-client.once('ready', () => {
+client.once('ready', async function () {
 	client.user.setStatus('idle');
 	client.user.setActivity('people do tasks', { type: 'WATCHING' });
-	/*
-	const permissions = [
-		{
-			id: '224617799434108928',
-			type: 'USER',
-			permission: false,
-		},
-	];*/
-
-	//await command.permissions.add({ permissions });
-
 	console.log('Ready!');
 	
 	for (const file of commandFiles) {
