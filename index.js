@@ -41,6 +41,7 @@ const tweets = supabase
 const subscription = supabase
 	.from('tasks')
 	.on('INSERT', async function (payload) {
+		console.log(payload.new)
 		let guild = client.guilds.cache.get(guildId);
 		let member = guild.members.cache.get(payload.new.provider_id);
 
