@@ -1,4 +1,4 @@
-const fetch = require('node-fetch');
+const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 module.exports.func = async function(interaction) {
 	fetch(process.env.LINK+"/tweet/", {
         method: "post",
