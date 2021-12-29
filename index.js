@@ -17,11 +17,14 @@ const buttons = {};
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.DIRECT_MESSAGES, Intents.FLAGS.GUILD_PRESENCES, Intents.FLAGS.GUILD_MEMBERS] });
 client.commands = new Collection();
 
-var supabase = createClient('https://yrwzfuhdwmsygfksjrwi.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYzMjg3ODY2MiwiZXhwIjoxOTQ4NDU0NjYyfQ.dlRgknRLgXl57xNrgcKO1_DpXI3JD3w7fUVV0y-1sxw')
+var supabase = createClient('https://yrwzfuhdwmsygfksjrwi.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYzMjg3ODY2MiwiZXhwIjoxOTQ4NDU0NjYyfQ.dlRgknRLgXl57xNrgcKO1_DpXI3JD3w7fUVV0y-1sxw');
 
 const tweets = supabase
         .from('tweets')
         .on('INSERT', async function (payload) {
+		console.log("THIS SHOULD WORK WDYM")
+		console.log(payload.new);
+		console.log(process.env.TO_DM);
 		const embed = new MessageEmbed()
 			.setAuthor("Nexus Aurora One Time Tweet Portal")
                         .setTitle("Do you like this tweet?")
