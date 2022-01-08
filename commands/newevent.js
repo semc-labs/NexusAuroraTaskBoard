@@ -40,7 +40,7 @@ module.exports = {
 			entityType: "VOICE"
 		}
 		let event = await guild.scheduledEvents.create(options);
-		await message.client.channels.cache.get(process.env.eventChannelId).send("https://discord.gg/92bnpnny?event="+event.id);
+		await message.client.channels.cache.get(process.env.eventChannelId).send("https://discord.gg/ENsWaqpy28?event="+event.id);
 	},
 };
 
