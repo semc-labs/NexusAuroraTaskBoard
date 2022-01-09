@@ -8,7 +8,6 @@ function percentIncrease(start, now) {
   return ((now - start) / start) * 100
 }
 
-
 function round(value, decimals) {
   return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
 }
@@ -19,7 +18,7 @@ module.exports = {
         	const response = await fetch("https://www.coinbase.com/api/v2/assets/prices/d6031388-71ab-59c7-8a15-a56ec20d6080?base=USD");
 	        const json = await response.json();
 		console.log(json.data);
-		await interaction.reply("SHIB is currently at: **"+json.data.prices.latest+"** USD\n\nThat places NA's .4 billion SHIB at: **"+round((formatNums(Number(json.data.prices.latest)*Number(process.env.TOTAL_SHIB))), 2).toString()+"** USD or "+round(Math.abs(percentIncrease(11401.40, Number(json.data.prices.latest)*Number(process.env.TOTAL_SHIB)))))+" "+(percentIncrease(11401.40, Number(json.data.prices.latest)*Number(process.env.TOTAL_SHIB)) > 0 ? "Up" : "Down") + "from our original value";
+		await interaction.reply("SHIB is currently at: **"+json.data.prices.latest+"** USD\n\nThat places NA's .4 billion SHIB at: **"+formatNums(round(Number(json.data.prices.latest)*Number(process.env.TOTAL_SHIB), 2))+"** USD or "+round(Math.abs(percentIncrease(11401.40, Number(json.data.prices.latest)*Number(process.env.TOTAL_SHIB))))+" "+(percentIncrease(11401.40, Number(json.data.prices.latest)*Number(process.env.TOTAL_SHIB)) > 0 ? "Up" : "Down") + "from our original value");
 	},
 };
 
