@@ -1,6 +1,67 @@
 // Require the necessary discord.js classes
 const { Client, Collection, Intents, MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
 
+
+var cron = require('node-cron');
+
+function createWeekEpoch(date) {
+	startOfWeek = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() - date.getUTCDay(), 0, 0, 0))
+	
+	return date.valueOf() - startOfWeek.valueOf()
+}
+
+function weekStart(date) {
+	startOfWeek = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() - date.getUTCDay(), 0, 0, 0))
+	
+	return startOfWeek.valueOf()
+}
+
+// Run the function to check for upcoming meetings every five minutes
+cron.schedule('*/5 * * * *', async () => {
+	const { Client } = require('pg')
+	// Create Postgres Client With Env Variables
+	const clientx = new Client({
+		user: process.env.PG_USER,
+		host: process.env.PG_HOST,
+		database: 'postgres',
+		password: process.env.PG_PASSWORD, 
+		port: 5432,
+	})
+   	clientx.connect()
+   	let res = await clientx.query("SELECT * FROM repeating_meetings"); // Get all repeating meetings
+   	let meetings = res.rows; // Get rows in table
+	let guild = await client.guilds.cache.get(process.env.guildId); // Get guild from guildId
+	
+	// Loop through meetings
+	for (meeting in meetings) { 
+		meeting = meetings[meeting];
+		if (new Date(Date.now()).valueOf() - Number(meeting.last_updated) >= (24 * 4 * 60 * 60 * 1000)) { // Check if it was updated more than 4 days ago
+			if (Number(meeting.startTime) - createWeekEpoch(new Date(Date.now())) <= (259200000) && Math.abs(Number(meeting.startTime) - createWeekEpoch(new Date(Date.now()))) == Number(meeting.startTime) - createWeekEpoch(new Date(Date.now()))) { // Check if it is within 3 days from now
+				try {
+				let options = {
+					name: meeting.name, 
+					scheduledStartTime: new Date(weekStart(new Date(Date.now())) + Number(meeting.startTime)),
+					description: meeting.description,
+					channel: client.channels.cache.get(process.env.voiceId),
+					privacyLevel: 2,
+					entityType: "VOICE"
+				}
+				console.log(options)
+
+				let event = await guild.scheduledEvents.create(options).catch(e => console.log(e));
+				
+				await client.channels.cache.get(process.env.eventChannelId).send(await event.createInviteURL());	
+				res = await clientx.query("UPDATE repeating_meetings SET last_updated = $1 WHERE id = $2", [Date.now(), meeting.id]);		
+				console.log(res.err)
+				} catch (err) {
+					console.log(err)
+				}	
+			}
+		} 
+	}
+	clientx.end();
+});
+
 const clientId = process.env.clientId;
 const token = process.env.token;
 const taskChannelId = process.env.taskChannelId;
