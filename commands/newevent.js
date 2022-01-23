@@ -53,7 +53,7 @@ module.exports = {
         	})
        		clientx.connect()
 
-			await clientx.query('INSERT INTO repeating_meetings(name,description,"startTime",last_updated) VALUES($1,$2,$3,$4)', [name, description, weekEpochTime, time])
+			await clientx.query('INSERT INTO repeating_meetings(name,description,"startTime",last_updated) VALUES($1,$2,$3,$4)', [name, description, weekEpochTime, time.valueOf()])
 		} else {
 			await channel.send("Ok, I will not repeat this meeting.")
 		}
