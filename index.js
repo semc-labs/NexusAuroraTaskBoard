@@ -82,7 +82,7 @@ var supabase = createClient('https://yrwzfuhdwmsygfksjrwi.supabase.co', 'eyJhbGc
 
 client.on("messageCreate", async function (message) {
 	if (message.channel.id == "951658616807637073") {
-		fetch(process.env.topicLink, {
+		const request = await fetch(process.env.topicLink, {
 			method: "post",
 			headers: {
 				'Accept': 'application/json',
@@ -94,7 +94,9 @@ client.on("messageCreate", async function (message) {
 				key: process.env.topicApiKey,
 				topic: message.content.split("|")[0].trim()
 			})
-		})
+		});
+		console.log(request.status);
+		console.log(await request.text())
 	}
 })
 
