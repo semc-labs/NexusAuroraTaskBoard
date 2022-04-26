@@ -10,7 +10,7 @@
   "author": "Will F (Sudo killall windows)",
   "license": "GPL-3",
   "dependencies": {
-    "@discordjs/builders": "0.9.0",
+    "@discordjs/builders": "0.13.0",
     "@discordjs/rest": "0.4.1",
     "@supabase/supabase-js": "1.35.1",
     "discord-api-types": "0.32.0",
