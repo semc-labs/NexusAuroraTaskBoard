@@ -1,3 +1,5 @@
+# This repo has been archived. Please check out the new one at https://github.com/semc-labs/NexusAuroraBot
+
 # Nexus Aurora Task Board
 A Discord Bot to create tasks on the Nexus Aurora server. https://taskboard.nexusaurora.org/
 
